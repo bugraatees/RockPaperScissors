@@ -1,63 +1,55 @@
-const computerChoiseDisplay = document.getElementById("computer-choise");
-const userChoiseDisplay = document.getElementById("user-choise");
-const resultDisplay = document.getElementById("result"); 
+const playerText = document.querySelector("#playerText");
+const computerText = document.querySelector("#computerText");
+const resultText = document.querySelector("#resultText");
 
-const possibleChoise = document.querySelectorAll("button");
+const choiceBtns = document.querySelectorAll(".choiceBtn");
 
-let userChoise
-let computerChoise
-let result
+let player;
+let computer;
+let result;
 
+choiceBtns.forEach(button => button.addEventListener("click", () => {
 
-possibleChoise.forEach(possibleChoise => possibleChoise.addEventListener("click", (e)=>{
-    userChoise = e.target.id
-    userChoiseDisplay.innerHTML = userChoise
+    player = button.textContent;
+    computerTurn();
+    playerText.textContent = `Player : ${player}`;
+    computerText.textContent = `Computer : ${computer}`;
+    resultText.textContent = checkWinner();
+}));
 
-    generateComputerChoise()
-    getResult()
-}))
+function computerTurn(){
 
-function generateComputerChoise(){
-    const randomNumber = Math.floor(Math.random()* possibleChoise.length +1);
-    if(randomNumber === 1){
-        computerChoise = "Tas"
+    const randNum = Math.floor(Math.random() * 3) + 1;
+
+    switch (randNum) {
+
+        case 1:
+            computer = "ROCK";
+            break;
+
+        case 1:
+            computer = "PAPER";
+            break;
+
+        case 1:
+            computer = "SCISSORS";
+            break;
     }
-    if(randomNumber === 2){
-        computerChoise = "Kagit"
-    }
-    if(randomNumber === 3){
-        computerChoise = "Makas"
-    }
-
-    computerChoiseDisplay.innerHTML = computerChoise;
 }
 
-function getResult(){
-    if(computerChoise==userChoise){
-        result = "Berabere"
+function checkWinner(){
+    if(player == computer){
+        return "Draw";
     }
-    if(computerChoise=='tas' && userChoise =='makas'){
-        result = "Maalesef.. Kaybettiniz"
-    }
-    if(computerChoise=='tas' && userChoise =='kagit'){
-        result = "Tebrikler.. Kazandınız"
+    else if (computer == "ROCK"){
+        return (player == "PAPER") ? "You Win" : "You Lose!"
     }
     
-    if(computerChoise =='kagit' && userChoise =='makas'){
-        result = "Tebrikler.. Kazandınız"
+    else if (computer == "PAPER"){
+        return (player == "SCISSORS") ? "You Win" : "You Lose!"
     }
     
-    if(computerChoise =='kagit' && userChoise =='tas'){
-        result = "Maalesef.. Kaybettiniz"
+    else if (computer == "SCISSORS"){
+        return (player == "ROCK") ? "You Win!" : "You Lose!"
     }
-
-    if(computerChoise =='makas' && userChoise =='kagit'){
-        result = "Maalesef.. Kaybettiniz"
-    }
-
-    if(computerChoise =='makas' && userChoise == 'tas'){
-        result = "Tebrikler.. Kazandınız"
-    }
-
-    resultDisplay.innerHTML = result 
-}
+};
